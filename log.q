@@ -8,6 +8,8 @@ cfg.FIELDS:()!()
 now:{.z.p}
 stdout:-1
 
+/ TODO - handle, user (who) handling
+
 isText:{type[x]in -10 10h}
 render.plain:{$[isText x;x;" "sv get @[x;`msg;.j.s]]}
 render.logfmt:{$[isText x;x;" "sv "="sv'flip(string key x;get @[x;`msg;.j.s])]}
