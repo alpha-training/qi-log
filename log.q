@@ -1,6 +1,7 @@
 \d .log
 
 / config settings
+isText:{type[x]in 10h -10h}
 cfg.LEVELS:`error`warn`info`debug`trace
 cfg.LEVEL:cfg.LEVELS?`info
 cfg.FORMAT:`logfmt
@@ -34,6 +35,8 @@ error:print`error
 debug:print`debug
 trace:print`trace
 
+/
+for testing
 
 \d .
 .log.info"testing"
