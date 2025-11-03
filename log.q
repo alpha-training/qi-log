@@ -1,7 +1,6 @@
 \d .log
 
 / config settings
-isText:{type[x]in 10h -10h}
 cfg.LEVELS:`error`warn`info`debug`trace
 cfg.LEVEL:cfg.LEVELS?`info
 cfg.FORMAT:`logfmt
@@ -9,8 +8,9 @@ cfg.FIELDS:()!()
 now:{.z.p}
 stdout:-1
 
-render.plain:{[d] " "sv get @[d;`msg;.j.s]}
-render.logfmt:{[d] " "sv "="sv'flip(string key d;get @[d;`msg;.j.s])}
+isText:{type[x]in -10 10h}
+render.plain:{$[isText x;x;" "sv get @[x;`msg;.j.s]]}
+render.logfmt:{$[isText x;x;" "sv "="sv'flip(string key x;get @[x;`msg;.j.s])]}
 render.json:.j.j
 
 format:{[fmt] if[not fmt in key render;bad_format];cfg.FORMAT:fmt}
@@ -20,7 +20,7 @@ fields:{[d] cfg[`FIELDS]:d}
 print:{[lvl;msg]
  if[cfg.LEVEL<cfg.LEVELS?lvl;:()];
  op:msg;d:();
- if[not type[msg]in -10 10h;
+ if[not isText msg;
   if[99<>type last msg;:"second arg must be a fields dict when passing a non-string arg"];
   op:first msg;
   d:last msg];
@@ -35,7 +35,7 @@ error:print`error
 debug:print`debug
 trace:print`trace
 
-/
+\
 for testing
 
 \d .
