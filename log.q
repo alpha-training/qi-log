@@ -25,13 +25,12 @@ init:{[d]
   }
 
 printx:{[context;lvl;x]
- if[cfg.LEVEL<cfg.LEVELS?lvl;:()];
- msg:x;d:();
- if[not type msg;
-  if[99<>type last msg;'"second arg must be a fields dict when passing a non-string arg"];
-  msg:first x;d:last x];
+ if[cfg.LEVEL<cfg.LEVELS?lvl;:()];d:();
+ if[not type msg:x;
+  if[(0<count d)&99<>type d:last msg;'"second arg must be a fields dict when passing a non-string arg"];
+  msg:first x];
  fields:`ts`lvl`msg!(string now`;string lvl;msg);
- fields,:cfg.FIELDS,context,d;
+ fields,:cfg.FIELDS,context,$[count d;d;()];
  fields:@[fields;where 100<=type each fields;seval];
  stdout render[cfg.FORMAT]fields;
  }
@@ -43,7 +42,7 @@ with:{[context] (1#.q),k!{printx[x;y]}[context]each k:cfg.LEVELS}
 
 \d .
 
-\
+/
 
 .log.init`level`format!(`trace;`json)
 .log.info"testing"
