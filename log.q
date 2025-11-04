@@ -28,7 +28,7 @@ printx:{[context;lvl;x]
  if[cfg.LEVEL<cfg.LEVELS?lvl;:()];
  msg:x;d:();
  if[not type msg;
-  if[99<>type last msg;:"second arg must be a fields dict when passing a non-string arg"];
+  if[99<>type last msg;'"second arg must be a fields dict when passing a non-string arg"];
   msg:first x;d:last x];
  fields:`ts`lvl`msg!(string now`;string lvl;msg);
  fields,:cfg.FIELDS,context,d;
