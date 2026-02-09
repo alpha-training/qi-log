@@ -2,12 +2,16 @@
 
 now:{.z.p}
 stdout:-1
-LEVEL:.conf.LOGLEVELS?.conf.LOGLEVEL
 FIELDS:()!()
 
 / configuration functions
 setformat:{[fmt] if[not fmt in key render;bad_format];.conf.LOGFORMAT:fmt}
-setlevel:{[lvl] LEVEL::.conf.LOGLEVELS?lvl}
+setlevel:{[lvl] 
+  a:({x!count[x]#(::)}l:.conf.LOGLEVELS);
+  .log,:a,k!(print@)each k:(1+l?lvl)#l;
+  .log.fatal:{.log.print[`fatal;x];exit 1};
+  }
+
 usefields:{[d] FIELDS::@[d;where 100>type each d;.qi.tostr]}
 
 / internal functions
@@ -17,7 +21,7 @@ render.logfmt:{" "sv "="sv'flip(string key x;get @[x;`msg;.j.s])}
 render.json:.j.j
 
 print:{[lvl;x]
- if[LEVEL<.conf.LOGLEVELS?lvl;:()];d:();
+ d:();
  if[not type msg:x;
   if[(0<count d)&99<>type d:last msg;'"second arg must be a fields dict when passing a non-string arg"];
   msg:first x];
@@ -27,7 +31,7 @@ print:{[lvl;x]
  stdout render[.conf.LOGFORMAT]fields;
  }
 
-{.log[x]:print x}each .conf.LOGLEVELS;
+setlevel .conf.LOGLEVEL;
 
 /
 
