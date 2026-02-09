@@ -16,7 +16,7 @@ render.plain:" "sv get@
 render.logfmt:{" "sv "="sv'flip(string key x;get @[x;`msg;.j.s])}
 render.json:.j.j
 
-printx:{[context;lvl;x]
+print:{[lvl;x]
  if[LEVEL<.conf.LOGLEVELS?lvl;:()];d:();
  if[not type msg:x;
   if[(0<count d)&99<>type d:last msg;'"second arg must be a fields dict when passing a non-string arg"];
@@ -27,7 +27,6 @@ printx:{[context;lvl;x]
  stdout render[.conf.LOGFORMAT]fields;
  }
 
-print:printx()!()
 {.log[x]:print x}each .conf.LOGLEVELS;
 
 /
@@ -39,4 +38,5 @@ usage
 .log.warn"testing again"
 .log.info("next test";`arg5`ts!("yes";string .z.d))
 .log.setformat`json
+.log.now:{.z.P}
 .log.setformat`plain
