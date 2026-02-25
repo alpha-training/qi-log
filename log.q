@@ -35,7 +35,7 @@ setlevel .conf.LOGLEVEL;
 
 /
 
-usage
+usage examples
 .log.info"testing"
 .log.setformat`logfmt
 .log.usefields`pid`user`heap!(.z.i;{.z.u};{.Q.w[]`heap})
